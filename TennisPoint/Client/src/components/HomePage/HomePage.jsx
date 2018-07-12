@@ -21,7 +21,7 @@ export default class HomePage extends Component {
         } else {
             homepageView = (
             <div className="mt-2">
-                <h1>Welcome to Tennis Info</h1>
+                <h1>Welcome to Tennis Point</h1>
                 <br />
                 <h3>
                     Information about tennis players, their ranking and much more!
@@ -31,7 +31,7 @@ export default class HomePage extends Component {
             </div>
             )
         }
-        
+
         return (
             <div className="container text-center">
                     {homepageView}

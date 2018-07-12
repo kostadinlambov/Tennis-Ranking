@@ -31,7 +31,7 @@ export default class Header extends Component {
                 <div className="container">
                     {/* <div className="row">
                             <div className="col-md-12"> */}
-                    {loggedIn && <div className="text-right" id="username">Hello, {localStorage.getItem('email')}!</div>}
+                    {loggedIn && <div className="modal-header" id="username">Hello, {localStorage.getItem('email')}!</div>}
                     <NavLink exact to="/" style={{ margin: 20 }} activeClassName="active">Home</NavLink>
                     {loggedIn && <NavLink to="/ranking" style={{ margin: 20 }} activeClassName="active">Tennis Ranking</NavLink>}
                     {loggedIn && <NavLink to="/tournaments" style={{ margin: 20 }} activeClassName="active">Tournament</NavLink>}
