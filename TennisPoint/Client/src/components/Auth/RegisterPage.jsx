@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
 import Input from '../common/Input';
 import { register } from '../../api/remote';
 import fetcher from '../../infrastructure/requester'
-import { Redirect } from 'react-router-dom'
 import observer from '../../infrastructure/observer'
+import React ,{ Component} from 'react';
+import { Redirect } from 'react-router-dom'
 
 
 export default class RegisterPage extends Component {
@@ -31,33 +31,37 @@ export default class RegisterPage extends Component {
     onSubmitHandler(event) {
         event.preventDefault();
 
-        if (this.state.password === this.state.repeat) {
+        if (this.state.password.length < 6) {
+            observer.trigger(observer.events.notification, { type: 'error', message: 'Passwords must be at least 6 characters long.' });
+            this.setState({ error: 'Passwords must be at least 6 characters long.' })
+            // console.log('Passwords must be at least 6 characters long.')
+            console.log(this.state.error)
+        } else if (this.state.password !== this.state.repeat) {
+            observer.trigger(observer.events.notification, { type: 'error', message: 'Password must match repeat password' });
+            this.setState({ error: 'Password must match repeat password' })
+            // console.log('Password must match repeat password')
+            console.log(this.state.error)
+        } else {
             fetcher.post('/users/register', { password: this.state.password, email: this.state.email }, (response) => {
                 console.log(response);
                 console.log(response);
                 // this.setRedirect();
                 // this.renderRedirect(); )
-              
-                if(response.success == true){
 
-                    observer.trigger(observer.events.notification, {type: 'success', message: response.message})
+                if (response.success == true) {
+
+                    observer.trigger(observer.events.notification, { type: 'success', message: response.message })
                     localStorage.setItem('userId', response.id)
                     localStorage.setItem('email', response.email)
                     this.setState({ fireRedirect: true })
                 }
             })
-        } else {
-           
-            observer.trigger(observer.events.notification, {type: 'error', message: 'Password must match repeat password'});
-             this.setState({ error: 'Password must match repeat password' })
-            // console.log('Password must match repeat password')
-            console.log(this.state.error)
         }
     }
 
-    
+
     render() {
-        if(this.state.fireRedirect == true){
+        if (this.state.fireRedirect == true) {
             return <Redirect to="/" />
         }
 
@@ -69,6 +73,7 @@ export default class RegisterPage extends Component {
                 <form onSubmit={this.onSubmitHandler}>
                     <Input
                         name="email"
+                        type="email"
                         value={this.state.email}
                         onChange={this.onChangeHandler}
                         label="E-mail"

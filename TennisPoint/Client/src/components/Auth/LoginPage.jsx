@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React ,{ Component} from 'react'
+import { Redirect } from 'react-router-dom'
 import Input from '../common/Input';
 import { login } from '../../api/remote';
 import fetcher from '../../infrastructure/requester'
-import { Redirect } from 'react-router-dom'
 import observer from '../../infrastructure/observer'
+
+
 
 
 export default class LoginPage extends Component {
@@ -33,7 +35,7 @@ export default class LoginPage extends Component {
             // this.renderRedirect(); )
             // debugger
             if (response.success == true) {
-                debugger
+                
                 // observer.trigger(observer.events.loginUser, res.username)
                 observer.trigger(observer.events.notification, { type: 'success', message: response.message })
                 localStorage.setItem('userId', response.id)

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import React ,{ Component} from 'react';
 import observer from '../../infrastructure/observer'
 
 export default class Header extends Component {
@@ -34,7 +34,7 @@ export default class Header extends Component {
                     {loggedIn && <div className="modal-header" id="username">Hello, {localStorage.getItem('email')}!</div>}
                     <NavLink exact to="/" style={{ margin: 20 }} activeClassName="active">Home</NavLink>
                     {loggedIn && <NavLink to="/ranking" style={{ margin: 20 }} activeClassName="active">Tennis Ranking</NavLink>}
-                    {loggedIn && <NavLink to="/tournaments" style={{ margin: 20 }} activeClassName="active">Tournament</NavLink>}
+                    {loggedIn && <NavLink to="/tournaments" style={{ margin: 20 }} activeClassName="active">Tournaments</NavLink>}
 
                     {loggedIn && <a href="javascript:void(0)" style={{ margin: 20 }} onClick={onLogout}>Logout</a>}
 

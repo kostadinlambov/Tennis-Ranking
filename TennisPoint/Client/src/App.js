@@ -7,6 +7,7 @@ import HomePage from './components/HomePage/HomePage';
 import Notifications from './components/common/Notifications'
 import Footer from './components/common/Footer'
 import './style/bootstrap.min.css'
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css'
 import PlayersRankingPage from './components/Ranking/PlayersRankingPage';
 
 class App extends Component {

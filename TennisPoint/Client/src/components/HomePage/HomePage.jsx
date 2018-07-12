@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React ,{ Component} from 'react';
+import { Redirect } from 'react-router-dom'
 import '../../style/bootstrap.min.css'
 import LoggedInView from './LoggedInHome';
 

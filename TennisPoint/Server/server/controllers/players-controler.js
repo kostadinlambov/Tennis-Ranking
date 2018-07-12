@@ -76,7 +76,7 @@ module.exports = {
             .then(players => {
                 return res.status(200).json({
                     success: true,
-                    message: 'All categories',
+                    message: 'All Players',
                     players
                 })
             })

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React ,{ Component} from 'react';
 import observer from '../../infrastructure/observer';
 import '../../style/notifications.css'
 
