@@ -3,6 +3,8 @@ import Input from '../common/Input';
 import { login } from '../../api/remote';
 import fetcher from '../../infrastructure/requester'
 import { Redirect } from 'react-router-dom'
+import observer from '../../infrastructure/observer'
+
 
 export default class LoginPage extends Component {
     constructor(props) {
@@ -29,16 +31,26 @@ export default class LoginPage extends Component {
             console.log(response);
             // this.setRedirect();
             // this.renderRedirect(); )
-            debugger
-            localStorage.setItem('userId', response.id)
-            localStorage.setItem('email', response.email)
-            this.setState({ fireRedirect: true })
+            // debugger
+            if (response.success == true) {
+                debugger
+                // observer.trigger(observer.events.loginUser, res.username)
+                observer.trigger(observer.events.notification, { type: 'success', message: response.message })
+                localStorage.setItem('userId', response.id)
+                localStorage.setItem('email', response.email)
+                this.setState({ fireRedirect: true })
+            } else {
+                observer.trigger(observer.events.notification, { type: 'error', message: response.message });
+                this.setState({ email: '', password: '' })
+            }
+
+
         })
     }
 
     render() {
 
-        if(this.state.fireRedirect == true){
+        if (this.state.fireRedirect == true) {
             return <Redirect to="/" />
         }
         return (

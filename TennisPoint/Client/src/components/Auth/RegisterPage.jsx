@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Input from '../common/Input';
 import { register } from '../../api/remote';
-// import fetcher from '../../infrastructure/requester';
 import fetcher from '../../infrastructure/requester'
 import { Redirect } from 'react-router-dom'
+import observer from '../../infrastructure/observer'
+
 
 export default class RegisterPage extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class RegisterPage extends Component {
             password: '',
             repeat: '',
             error: '',
+            message: '',
             fireRedirect: false
         };
 
@@ -35,14 +37,20 @@ export default class RegisterPage extends Component {
                 console.log(response);
                 // this.setRedirect();
                 // this.renderRedirect(); )
-                debugger
-                localStorage.setItem('userId', response.id)
-                localStorage.setItem('email', response.email)
-                this.setState({ fireRedirect: true })
+              
+                if(response.success == true){
+
+                    observer.trigger(observer.events.notification, {type: 'success', message: response.message})
+                    localStorage.setItem('userId', response.id)
+                    localStorage.setItem('email', response.email)
+                    this.setState({ fireRedirect: true })
+                }
             })
         } else {
-            console.log('Password must match repeat password')
-            this.setState({ error: 'Password must match repeat password' })
+           
+            observer.trigger(observer.events.notification, {type: 'error', message: 'Password must match repeat password'});
+             this.setState({ error: 'Password must match repeat password' })
+            // console.log('Password must match repeat password')
             console.log(this.state.error)
         }
     }

@@ -4,8 +4,8 @@ import Header from './components/common/Header';
 import RegisterPage from './components/Auth/RegisterPage';
 import LoginPage from './components/Auth/LoginPage';
 import HomePage from './components/HomePage/HomePage';
+import Notifications from './components/common/Notifications'
 import './style/bootstrap.min.css'
-import NavbarTest from './components/common/navbarTest';
 
 class App extends Component {
     constructor(props) {
@@ -23,7 +23,9 @@ class App extends Component {
         return (
             <div className="container">
                 <div className="text-center mt-4">
+                    <Notifications />
                     <Header loggedIn={localStorage.getItem('userId') != null} onLogout={this.onLogout} />
+
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route path="/login" component={LoginPage} />

@@ -17,13 +17,14 @@ module.exports = new PassportLocalStrategy({
 
   // const existingUser = userService.getByEmail(email)
   userService.getByEmail(email)
-  .then(existingUser => {
-    return done('E-mail already exists!')
-  }).catch(err => {
-    // console.log('err: ' err)
-    usersData.save(user)
-    return done(null)
-  })
-  
+    .then(existingUser => {
+      return done('E-mail already exists!')
+    }).catch(err => {
+      // console.log('err: ' err)
+      usersData.save(user)
+      return done(null)
+    })
+}
+
 )
 

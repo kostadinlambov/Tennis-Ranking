@@ -23,7 +23,8 @@ module.exports = {
         if (err) {
           return res.status(400).json({
             success: false,
-            error: err
+            error: err,
+            message: 'Incorrect credentials!'
           })
         }
 
@@ -35,6 +36,7 @@ module.exports = {
           email: loggedInUser.email,
           // reqUser,
           // ...loggedInUser,
+          message: 'You have registered successfully!',
           success: true
         })
 
@@ -42,7 +44,8 @@ module.exports = {
     }).catch((err) => {
       return res.status(400).json({
         success: false,
-        error: err
+        error: '',
+        message: err
       })
     })
   },
@@ -56,14 +59,16 @@ module.exports = {
         if (!user) {
           return res.status(401).json({
             success: false,
-            error: 'Invalid user data'
+            error: 'Invalid user data',
+            message: 'Incorrect credentials!'
           })
         }
 
         if (!user.authenticate(reqUser.password)) {
           return res.status(401).json({
             success: false,
-            error: 'Invalid user data'
+            error: 'Invalid user data',
+            message: 'Incorrect credentials!'
           })
         }
 
@@ -87,7 +92,8 @@ module.exports = {
             email: loggedInUser.email,
             // reqUser,
             // ...loggedInUser,
-            success: true
+            success: true,
+            message: 'You have successfully logged in!'
           })
         })
       })
@@ -98,7 +104,8 @@ module.exports = {
     return res.status(204).json({
       // id: user.id,
       // email: user.email,
-      success: true
+      success: true,
+      message: 'You have successfully logged out!'
     })
   }
 }
