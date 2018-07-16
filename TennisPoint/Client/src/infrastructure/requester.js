@@ -1,4 +1,4 @@
-
+import observer from './observer'
 const BASE_URL = 'http://localhost:1337';
 
 export default {
@@ -7,7 +7,10 @@ export default {
         fetch(BASE_URL + endpoint)
             .then(data => data.json())
             .then(callback)
-            .catch(console.log)
+            .catch( err => {
+                // observer.trigger(observer.events.notification, { type: 'success', message: err })
+                console.log('Error:', err)
+            })
     },
 
     // post: (endpoint, data, callback) {
@@ -35,9 +38,11 @@ export default {
         })
             .then(res => res.json())
             .then(callback)
-            .catch(error => console.error('Error:', error));
+            .catch(error =>{
+                observer.trigger(observer.events.notification, { type: 'success', message: error })
+                // console.error('Error:', error)
+            });
         //   .then(response => console.log('Success:', response));
-
     },
 
     signup(data) {

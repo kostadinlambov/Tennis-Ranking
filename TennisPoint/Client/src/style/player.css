@@ -1,0 +1,11 @@
+table{
+caption-side: top;
+text-align: center
+
+
+}
+
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}

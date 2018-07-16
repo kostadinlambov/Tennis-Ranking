@@ -11,8 +11,10 @@ const tounamentSchema = new mongoose.Schema({
     prizeMoney: { type: Number, required: true },
     website: { type: String, required: true },
     players: [{ type: ObjectId, ref: 'Player', default: [] }],
+    imageUrl: { type: String, required: true },
     // category: {type: String, required: true}, //categories: [Grand Slam, ATP1000, ATP500, ATP250] - coming from  Tournament-Form from FrontEnd as String
-    category: { type: ObjectId, ref: 'Category', required: false }, //categories: [Grand Slam, ATP1000, ATP500, ATP250] - coming from  Tournament-Form from FrontEnd as String
+    // category: { type: ObjectId, ref: 'Category', required: false }
+    category: { type: String, required: true  }
 }, { usePushEach: true })
 
 const Tournament = mongoose.model('Tournament', tounamentSchema)

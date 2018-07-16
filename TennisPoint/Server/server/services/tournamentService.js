@@ -24,6 +24,10 @@ module.exports = {
        
     delete: id => {
         return tournaments.delete(id)
+    },
+
+    findByIdAndUpdate: (id, data) => {
+        return tournaments.findByIdAndUpdate(id, data)
     }
      
 };

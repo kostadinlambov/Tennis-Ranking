@@ -1,19 +1,14 @@
 import React ,{ Component} from 'react';
-import { Redirect } from 'react-router-dom'
 import '../../style/bootstrap.min.css'
 import LoggedInView from './LoggedInHome';
-
 
 export default class HomePage extends Component {
     constructor(props) {
         super(props)
-
-
         this.state = {
 
         }
     }
-
 
     render() {
         let homepageView;
@@ -25,7 +20,7 @@ export default class HomePage extends Component {
                 <h1>Welcome to Tennis Point</h1>
                 <br />
                 <h3>
-                    Information about tennis players, their ranking and much more!
+                    Information about tennis players and their ranking !
                 </h3>
                 <br />
                 <p>Please login or sign up to continue!</p>

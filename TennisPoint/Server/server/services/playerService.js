@@ -18,8 +18,14 @@ module.exports = {
         players.get(id),
     getAll: () =>
         players.getAll(),
+    getAllPopulate: (modelPropertyNameToPopulate) => {
+        return players.getAllPopulate(modelPropertyNameToPopulate)
+    },
     delete: id => {
-        tournaments.delete(id)
+        players.delete(id)
+    },
+    findByIdAndUpdate: (id, data) => {
+        return players.findByIdAndUpdate(id, data)
     }
 
 };

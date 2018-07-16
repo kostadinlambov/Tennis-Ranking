@@ -27,6 +27,20 @@ module.exports = (Model) => {
                     return resolve(existingEntity);
                 });
             }),
+        getByIdPopulate: id =>
+            new Promise((resolve, reject) => {
+                Model.findById(id).then(existingEntity => {
+                    // Model.find().populate('category').then(existingEntity => {
+                    if (!existingEntity) {
+                        let message = `${modelName} with id: ${id} does not exist.`;
+                        console.log(message);
+                        return reject(message);
+                    }
+
+                    return resolve(existingEntity);
+                });
+            }),
+
         getAll: () =>
             new Promise((resolve) => {
                 Model.find().then(entities => {
@@ -54,10 +68,8 @@ module.exports = (Model) => {
                 });
             }),
 
-
-
         getAllPopulate: (modelPropertyNameToPopulate) =>
-            new Promise((resolve) => {
+            new Promise((resolve, reject) => {
                 Model.find().populate(modelPropertyNameToPopulate)
                     .then(entities => {
                         // Model.find().populate('category').then(entities => {
@@ -67,8 +79,18 @@ module.exports = (Model) => {
                         return reject(err);
                     });
             }),
-          
-       
-        }   
-    
+
+        findByIdAndUpdate: (id, data) =>
+            new Promise((resolve, reject) => {
+                User.findByIdAndUpdate(id, { $set: {...data} })
+                    .then((entity) => {
+                        return resolve(entity);
+                    }).catch(err => {
+                        console.log(err);
+                        return reject(err);
+                    });
+
+            })
+    }
+
 };

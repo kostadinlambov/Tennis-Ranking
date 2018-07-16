@@ -2,7 +2,6 @@ import React ,{ Component} from 'react';
 import observer from '../../infrastructure/observer';
 import '../../style/notifications.css'
 
-
 const DEFAULT_STATE = {
     message: '',
     success: '',
@@ -29,10 +28,6 @@ export default class Notifications extends Component {
     }
 
     hideNotification = (event) => this.setState(DEFAULT_STATE)
-
-    // componentDidMount = () => {
-    //     this.setTimer();
-    // };
 
     componentWillUnmount = () => {
         this.clearTimer();
@@ -70,8 +65,5 @@ export default class Notifications extends Component {
         } else {
             return null
         }
-
-
-
     }
 }

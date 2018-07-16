@@ -35,11 +35,9 @@ module.exports = {
             category.sixthRoundPoints,
             category.seventhRoundPoints,
             category.eighthRoundPoints,
-           
         )
 
         console.log(categoryObj);
-
 
         categoryService.create(categoryObj)
             .then((response) => {
@@ -50,7 +48,6 @@ module.exports = {
             }).catch((err) => {
                 return res.status(400).json({
                     success: false,
-                    // error: 'Invalid user data'
                     error: err
                 })
             })
@@ -64,6 +61,5 @@ module.exports = {
                     players
                 })
             })
-
     }
 }

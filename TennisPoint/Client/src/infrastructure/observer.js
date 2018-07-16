@@ -4,7 +4,6 @@ let subscriptions = {
 
 };
 
-
 export default {
     events: {
         loginUser: 'loginUser',

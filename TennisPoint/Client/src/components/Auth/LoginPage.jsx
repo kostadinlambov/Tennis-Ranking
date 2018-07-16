@@ -1,12 +1,8 @@
 import React ,{ Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import Input from '../common/Input';
-import { login } from '../../api/remote';
 import fetcher from '../../infrastructure/requester'
 import observer from '../../infrastructure/observer'
-
-
-
 
 export default class LoginPage extends Component {
     constructor(props) {
@@ -29,17 +25,13 @@ export default class LoginPage extends Component {
         e.preventDefault();
 
         fetcher.post('/users/login', { password: this.state.password, email: this.state.email }, (response) => {
-            console.log(response);
-            console.log(response);
-            // this.setRedirect();
-            // this.renderRedirect(); )
-            // debugger
             if (response.success == true) {
-                
                 // observer.trigger(observer.events.loginUser, res.username)
                 observer.trigger(observer.events.notification, { type: 'success', message: response.message })
                 localStorage.setItem('userId', response.id)
                 localStorage.setItem('email', response.email)
+                localStorage.setItem('roles', response.roles)
+
                 this.setState({ fireRedirect: true })
             } else {
                 observer.trigger(observer.events.notification, { type: 'error', message: response.message });

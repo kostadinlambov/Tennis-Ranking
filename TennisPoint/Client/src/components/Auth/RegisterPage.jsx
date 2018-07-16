@@ -1,9 +1,9 @@
-import Input from '../common/Input';
-import { register } from '../../api/remote';
-import fetcher from '../../infrastructure/requester'
-import observer from '../../infrastructure/observer'
 import React ,{ Component} from 'react';
 import { Redirect } from 'react-router-dom'
+import Input from '../common/Input';
+import fetcher from '../../infrastructure/requester'
+import observer from '../../infrastructure/observer'
+
 
 
 export default class RegisterPage extends Component {
@@ -34,38 +34,34 @@ export default class RegisterPage extends Component {
         if (this.state.password.length < 6) {
             observer.trigger(observer.events.notification, { type: 'error', message: 'Passwords must be at least 6 characters long.' });
             this.setState({ error: 'Passwords must be at least 6 characters long.' })
-            // console.log('Passwords must be at least 6 characters long.')
             console.log(this.state.error)
         } else if (this.state.password !== this.state.repeat) {
             observer.trigger(observer.events.notification, { type: 'error', message: 'Password must match repeat password' });
             this.setState({ error: 'Password must match repeat password' })
-            // console.log('Password must match repeat password')
             console.log(this.state.error)
         } else {
             fetcher.post('/users/register', { password: this.state.password, email: this.state.email }, (response) => {
                 console.log(response);
                 console.log(response);
-                // this.setRedirect();
-                // this.renderRedirect(); )
 
                 if (response.success == true) {
 
                     observer.trigger(observer.events.notification, { type: 'success', message: response.message })
                     localStorage.setItem('userId', response.id)
                     localStorage.setItem('email', response.email)
+                    localStorage.setItem('roles', response.roles)
                     this.setState({ fireRedirect: true })
+                }else{
+                    observer.trigger(observer.events.notification, { type: 'error', message: response.message })
                 }
             })
         }
     }
 
-
     render() {
         if (this.state.fireRedirect == true) {
             return <Redirect to="/" />
         }
-
-        // const { fireRedirect } = this.state
 
         return (
             <div className="container">
@@ -94,9 +90,6 @@ export default class RegisterPage extends Component {
                     />
                     <input type="submit" className="btn btn-primary" value="Register" />
                 </form>
-                {/* {fireRedirect && (
-                    <Redirect to='/' />
-                )} */}
             </div>
         );
     }

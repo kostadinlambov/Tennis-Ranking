@@ -22,6 +22,50 @@ let playerGenerator =
     }
 
 module.exports = {
+
+    getById: (req, res) => {
+        let playerId = req.params.id
+        playerService.getById(playerId)
+            .then((player) => {
+                tournamentService.getAll()
+                    .then(tournaments => {
+
+                        let playerTournaments = [];
+                        for (currentPlayerTournament of player.tournaments) {
+                            console.log(currentPlayerTournament)
+                            let currentPlayerTournamentId = mongoose.Types.ObjectId(currentPlayerTournament['tournament']['id']).toString();
+                            
+                            for(tournament of tournaments){
+                                let currentTournamentId = mongoose.Types.ObjectId(tournament['id']).toString(); 
+                                if(currentPlayerTournamentId === currentTournamentId){
+                                    playerTournaments.push(tournament)
+                                }
+                            }
+                        }
+        
+                        return res.status(200).json({
+                            success: true,
+                            message: 'Loaded current player with his tournaments.',
+                            player,
+                            playerTournaments
+                        })
+                     
+                    }).catch((err) => {
+                        return res.status(400).json({
+                            success: false,
+                            error: err
+                        })
+                    })
+
+            }).catch((err) => {
+                return res.status(400).json({
+                    success: false,
+                    message: err,
+                    error: err
+                })
+            })
+    },
+
     createPost: (req, res) => {
         let player = req.body;
 
@@ -45,18 +89,6 @@ module.exports = {
 
         console.log(playerObj);
 
-        // let dateAsString = Date(playerObj.birthdate)
-        // console.log('dateAsString: ');
-        // console.log(dateAsString);
-        // console.log(playerObj.birthdate.toDateString());
-        // console.log(playerObj.birthdate.toString());
-
-
-        // // Date d = (Date) dateAsString;
-        //  dateAsString.getTime();
-        //  console.log( dateAsString.getTime());
-        //  console.log( dateAsString.getAll());
-
         playerService.create(playerObj)
             .then((response) => {
                 return res.status(200).json({
@@ -66,6 +98,7 @@ module.exports = {
             }).catch((err) => {
                 return res.status(400).json({
                     success: false,
+                    message: 'Invalid data',
                     error: err
                 })
             })
@@ -80,7 +113,23 @@ module.exports = {
                     players
                 })
             })
+    },
 
+    getAllPopulate: (req, res) => {
+        const modelPropertyNameToPopulate = 'tournaments'
+        playerService.getAllPopulate(modelPropertyNameToPopulate)
+            .then(players => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'All Players',
+                    players
+                })
+            }).catch((err) => {
+                return res.status(400).json({
+                    success: false,
+                    error: err
+                })
+            })
     },
 
     getAddTournament: (req, res) => {
@@ -257,4 +306,67 @@ module.exports = {
 
             })
     },
+    editPost: (req, res) => {
+       
+        let player = req.body;
+        let playerId = req.params.id
+
+        // console.log(tournament);
+        // console.log(tournament.imageUrl)
+        // let url = tournament.imageUrl
+
+        let playerObj = playerGenerator(
+            player.firstName,
+            player.lastName,
+            player.country,
+            player.age,
+            player.birthplace,
+            player.birthdate,
+            // player._id,
+            player.earnings,
+            player.weight,
+            player.height,
+            player.residence,
+            player.imageUrl,
+            player.points
+        )
+
+        console.log(playerObj);
+
+        Tounament.findByIdAndUpdate(tournamentId,{$set:playerObj}, function(err, result){
+            if(err){
+                return res.status(400).json({
+                    success: false,
+                    message: 'Player update failed',
+                    error: err
+                })
+            }
+
+            return res.status(200).json({
+                success: true,
+                message: 'Player updated',
+                result
+            })
+        });
+    },
+
+    deletePost: (req, res) => {
+        let playerId = req.params.id
+
+        playerService.delete(playerId)
+            .then(player => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Player deleted successfully!',
+                    player
+                })
+            }).catch((err) => {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Player deleting error!',
+                    error: err
+                })
+            })
+    },
+
 }

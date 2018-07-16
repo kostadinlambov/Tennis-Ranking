@@ -1,9 +1,9 @@
+import React, { Component } from 'react';
 import requester from '../../infrastructure/requester'
 import observer from '../../infrastructure/observer'
-import Player from './Player'
 import '../../style/table.css'
-import PlayersRankingTable from '../Table/PlayersTable';
-import React, { Component } from 'react';
+import PlayersRankingTable from '../Table/RankingTable';
+import utilityService from '../../infrastructure/utilityService'
 
 export default class PlayersRankingPage extends Component {
     constructor(props) {
@@ -25,8 +25,6 @@ export default class PlayersRankingPage extends Component {
             tournaments: [],
             weight: '',
         }
-
-        this.getAge = this.getAge.bind(this)
     }
 
     componentDidMount() {
@@ -43,8 +41,7 @@ export default class PlayersRankingPage extends Component {
             this.sortByPoints(this.state.playersArr)
             this.rankingObj(this.state.playersArr)
 
-            console.log(this.state.playersArr)
-
+            console.log('rankingObj:', this.state.playersArr)
             observer.trigger(observer.events.notification, { type: 'success', message: players.message })
         })
     }
@@ -70,13 +67,12 @@ export default class PlayersRankingPage extends Component {
         })
     }
 
-
     rankingObj = (playerArr) => {
         let index = 0;
         let age;
         const playersForTableArr = playerArr.map(current => {
             index++
-            age = this.getAge(current.birthdate)
+            age = utilityService.getAge(current.birthdate)
             return {
                 id: current._id,
                 position: index,
@@ -90,7 +86,7 @@ export default class PlayersRankingPage extends Component {
                 points: current.points,
                 residence: current.residence,
                 age: age,
-                // tournaments: [],
+                // tournaments: current.tournaments || [],
                 weight: current.weight,
             }
         })
@@ -100,7 +96,6 @@ export default class PlayersRankingPage extends Component {
         })
 
     }
-
     sortByPoints = (playerArr) => {
         const sortedPlayersObj = playerArr.sort((a, b) => {
             return b.points - a.points
@@ -110,24 +105,10 @@ export default class PlayersRankingPage extends Component {
             playersArr: sortedPlayersObj
         })
     }
-
-
-    getAge = (dateString) => {
-        var today = new Date();
-        var birthDate = new Date(dateString);
-        var age = today.getFullYear() - birthDate.getFullYear();
-        var m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    }
-
     render() {
         return (
-
             <div className="container m-auto p-auto"> <br />
-                <PlayersRankingTable  {...this.state} />
+                <PlayersRankingTable  {...this.state}/>
             </div>
         )
     }

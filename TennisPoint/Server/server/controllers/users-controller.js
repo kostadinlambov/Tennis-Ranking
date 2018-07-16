@@ -7,8 +7,6 @@ module.exports = {
   },
   registerPost: (req, res) => {
     let reqUser = req.body
-    // Add validations!
-
     let salt = encryption.generateSalt()
     let hashedPassword = encryption.generateHashedPassword(salt, reqUser.password)
 
@@ -34,8 +32,7 @@ module.exports = {
         return res.status(200).json({
           id: loggedInUser._id,
           email: loggedInUser.email,
-          // reqUser,
-          // ...loggedInUser,
+          roles: loggedInUser.roles,
           message: 'You have registered successfully!',
           success: true
         })
@@ -44,8 +41,8 @@ module.exports = {
     }).catch((err) => {
       return res.status(400).json({
         success: false,
-        error: '',
-        message: err
+        error: err,
+        message: 'This email already exists'
       })
     })
   },
@@ -71,10 +68,7 @@ module.exports = {
             message: 'Incorrect credentials!'
           })
         }
-
-        console.log(user)
         const loggedInUser = user;
-        console.log(loggedInUser)
 
         req.logIn(user, (err, user) => {
           if (err) {
@@ -83,17 +77,13 @@ module.exports = {
               error: err
             })
           }
-
-          console.log('user: ', loggedInUser)
-          console.log('success')
   
           return res.status(200).json({
             id: loggedInUser._id,
             email: loggedInUser.email,
-            // reqUser,
-            // ...loggedInUser,
             success: true,
-            message: 'You have successfully logged in!'
+            message: 'You have successfully logged in!',
+             roles: loggedInUser.roles
           })
         })
       })
