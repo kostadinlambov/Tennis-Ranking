@@ -1,6 +1,6 @@
 # Tennis-Ranking
 
-This site was built using [React.js](https://reactjs.org/) and [Express.js](https://expressjs.com/).
+This site was built using [React.js](https://reactjs.org/)(Client), [Express.js](https://expressjs.com/)(Server) and [MongoDB](https://www.mongodb.com/)(Database).
 
 Features:
 - Routing
